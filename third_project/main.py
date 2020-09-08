@@ -1,4 +1,4 @@
-'''from datetime import date, timedelta
+from datetime import date, timedelta
 
 def calender_func(date1, date2, day):
     day +=1
@@ -17,7 +17,7 @@ def calender_func(date1, date2, day):
 rslt = calender_func('2020-02-18','2020-05-02',3)
 
 for data in rslt:
-    print(data)'''
+    print(data)
 
 
 
