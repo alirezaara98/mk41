@@ -41,7 +41,7 @@ def move_check(board, final_dict, color,  *places_list):
     return final_dict
 
 
-def rook_lr_move(start, move_type, board):
+def lr_move(start, move_type, board):
     move_list = []
     if move_type == 'left':
         index = start - 1

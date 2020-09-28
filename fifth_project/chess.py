@@ -1,4 +1,4 @@
-from projects.fifth_project.tools import checker, move_check, rook_lr_move
+from projects.fifth_project.tools import checker, move_check, lr_move
 
 
 class Board:
@@ -128,6 +128,10 @@ class Queen(Piece):
         eightbackward_templist = checker(Piece.start_index, self.color, 8, 'backward', self.board)
         nineforward_templist = checker(Piece.start_index, self.color, 9, 'forward', self.board)
         ninebackward_templist = checker(Piece.start_index, self.color, 9, 'backward', self.board)
+        left_templist = lr_move(Piece.start_index, 'left', self.board)
+        right_templist = lr_move(Piece.start_index, 'right', self.board)
+        left_list = list(filter(lambda indx: self.location[0] in self.board[indx], left_templist))
+        right_list = list(filter(lambda indx: self.location[0] in self.board[indx], right_templist))
         if self.color == 'B':
             sevenforward_list = list(
                 filter(lambda index: self.board[index][1] in Piece.place_name_list[:name_index],
@@ -159,7 +163,7 @@ class Queen(Piece):
         possible_place.update(
             move_check(self.board, possible_place, self.color, sevenforward_list, sevenbackward_list,
                        eightforward_list,
-                       eightbackward_list, nineforward_list, ninebackward_list))
+                       eightbackward_list, nineforward_list, ninebackward_list, left_list, right_list))
         print(possible_place)
         return
 
@@ -174,7 +178,7 @@ class Bishop(Piece):
         name_index = Piece.place_name_list.index(self.location[1])
         sevenforward_templist = checker(Piece.start_index, self.color, 7, 'forward', self.board)
         sevenbackward_templist = checker(Piece.start_index, self.color, 7, 'backward', self.board)
-        nineforward_templist = checker(Piece.start_index, self.board, 9, 'forward', self.board)
+        nineforward_templist = checker(Piece.start_index, self.color, 9, 'forward', self.board)
         ninebackward_templist = checker(Piece.start_index, self.color, 9, 'backward', self.board)
         if self.color == 'B':
             sevenforward_list = list(
@@ -184,7 +188,8 @@ class Bishop(Piece):
                 filter(lambda index: self.board[index][1] in Piece.place_name_list[name_index + 1:],
                        sevenbackward_templist))
             nineforward_list = list(
-                filter(lambda index: self.board[index][1] in Piece.place_name_list[name_index + 1:], nineforward_templist))
+                filter(lambda index: self.board[index][1] in Piece.place_name_list[name_index + 1:],
+                       nineforward_templist))
             ninebackward_list = list(
                 filter(lambda index: self.board[index][1] in Piece.place_name_list[:name_index], ninebackward_templist))
         else:
@@ -222,6 +227,7 @@ class Horse(Piece):
                     pass
         print(possible_place)
         return
+        # return possible_place
 
 
 class Rook(Piece):
@@ -233,8 +239,8 @@ class Rook(Piece):
         possible_place = {'attack': [], 'empty_place': []}
         forward_templist = checker(Piece.start_index, self.color, 8, 'forward', self.board)
         backward_templist = checker(Piece.start_index, self.color, 8, 'backward', self.board)
-        left_templist = rook_lr_move(Piece.start_index, 'left', self.board)
-        right_templist = rook_lr_move(Piece.start_index, 'right', self.board)
+        left_templist = lr_move(Piece.start_index, 'left', self.board)
+        right_templist = lr_move(Piece.start_index, 'right', self.board)
         forward_list = list(filter(lambda indx: self.location[1] in self.board[indx], forward_templist))
         backward_list = list(filter(lambda indx: self.location[1] in self.board[indx], backward_templist))
         left_list = list(filter(lambda indx: self.location[0] in self.board[indx], left_templist))
@@ -275,18 +281,19 @@ class Pawn(Piece):
                     possible_place['empty_place'].append(self.board[place][:2])
         print(possible_place)
         return
+        # return possible_place
 
 
 if __name__ == "__main__":
-    Board.guide()
+    '''Board.guide()
     
     board1 = Board()
     
-    board1.get_board()
+    board1.get_board()'''
     # test cases
     '''user2 = Pawn('P', 'B', '2a')
     user2.set_start_index()
-    user2.movement_list()
+    print(user2.movement_list())
     user2.move('3a')
     user2.get_board()
     user2 = Pawn('P', 'B', '3a')
@@ -409,4 +416,106 @@ if __name__ == "__main__":
     user.get_board()
     user = Rook('R', 'W', '6a')
     user.set_start_index()
+    user.movement_list()'''
+
+    '''user = Pawn('P', 'B', '2d')
+    user.set_start_index()
+    user.movement_list()
+    user.move('4d')
+    user.get_board()
+    user = Queen('Q', 'B', '1d')
+    user.set_start_index()
+    user.movement_list()
+    user = King('K', 'B', '1e')
+    user.set_start_index()
+    user.movement_list()
+    user = Pawn('P', 'B', '2e')
+    user.set_start_index()
+    user.move('4e')
+    user.get_board()
+    user = King('K', 'B', '1e')
+    user.set_start_index()
+    user.movement_list()'''
+
+    '''user = Pawn('P', 'W', '7b')
+    user.set_start_index()
+    user.move('5b')
+    user2 = Pawn('P', 'B', '2c')
+    user2.set_start_index()
+    user2.move('4c')
+    user2.get_board()
+    user = Pawn('P', 'W', '5b')
+    user.set_start_index()
+    user.movement_list()
+    user2 = Pawn('P', 'B', '4c')
+    user2.set_start_index()
+    user2.movement_list()'''
+
+    '''user = Pawn('P', 'W', '7b')
+    user.set_start_index()
+    user.movement_list()
+    user.move('5b')
+    user = Bishop('BS', 'W', '8c')
+    user.set_start_index()
+    user.movement_list()
+    user.move('7b')
+    user = Pawn('P', 'W', '7e')
+    user.set_start_index()
+    user.movement_list()
+    user.move('5e')
+    user.get_board()
+    user = King('K', 'W', '8e')
+    user.set_start_index()
+    user.movement_list()
+    user.move('7e')
+    user = Queen('Q', 'W', '8d')
+    user.set_start_index()
+    user.get_board()
+    user.movement_list()'''
+
+    '''user = Pawn('P', 'B', '2e')
+    user.set_start_index()
+    user.movement_list()
+    user.move('4e')
+    user = King('K', 'B', '1e')
+    user.set_start_index()
+    user.movement_list()
+    user.move('2e')
+    user = Pawn('P', 'B', '2d')
+    user.set_start_index()
+    user.movement_list()
+    user.move('4d')
+    user = Pawn('P', 'B', '2b')
+    user.set_start_index()
+    user.movement_list()
+    user.move('3b')
+    user = Bishop('BS', 'B', '1c')
+    user.set_start_index()
+    user.movement_list()
+    user.move('3a')
+    user.get_board()
+    user = Queen('Q', 'B', '1d')
+    user.set_start_index()
+    user.movement_list()'''
+
+    '''user = Pawn('P', 'W', '7g')
+    user.set_start_index()
+    user.move('6g')
+    user = Pawn('P', 'W', '7e')
+    user.set_start_index()
+    user.move('6e')
+    user = Bishop('BS', 'W', '8f')
+    user.set_start_index()
+    user.get_board()
+    user.movement_list()'''
+
+    '''user = Pawn('P', 'B', '2b')
+    user.set_start_index()
+    user.move('3b')
+    user = Pawn('P', 'B', '2d')
+    user.set_start_index()
+    user.move('3d')
+    user = Bishop('BS', 'B', '1c')
+    user.set_start_index()
+    user.get_board()
     user.movement_list()'''
