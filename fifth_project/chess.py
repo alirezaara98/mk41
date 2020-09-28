@@ -285,11 +285,11 @@ class Pawn(Piece):
 
 
 if __name__ == "__main__":
-    '''Board.guide()
+    Board.guide()
     
     board1 = Board()
     
-    board1.get_board()'''
+    board1.get_board()
     # test cases
     '''user2 = Pawn('P', 'B', '2a')
     user2.set_start_index()
