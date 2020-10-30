@@ -1,0 +1,41 @@
+.center_align{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 250px;
+    width: max-content;
+}
+body{
+    background-image: url("bg.jpg");
+}
+.input_field{
+    border-width: 0 0 1px;
+    border-color: white;
+    text-align: right;
+    background-color: transparent;
+}
+::-webkit-input-placeholder{
+    color: white;
+}
+#right{
+    float: right;
+}
+button{
+    background-color:#1D89E4;
+    height: 25px;
+    border-radius: 5px;
+    border: none;
+}
+.item_alignment{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.text_color{
+    color: white;
+}
+.option{
+    width: 270px;
+}
+.font_size{
+    font-size: x-small;
+}
