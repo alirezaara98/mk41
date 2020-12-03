@@ -1,0 +1,41 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    zommit :: {{post.title}}
+{% endblock %}
+
+{% block css%}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+    
+
+{% block body %}
+<div class='container d-flex align-items-center justify-content-center'>
+    <div class="row d-flex justify-content-center text-white bg-info rounded shadow-lg p-3 mb-5 mt-5">
+        <div class="col-12 text-center pt-2">
+            <h1>{{post.title}}</h1>
+        </div>
+        <div class="col-12 text-center">
+            <img alt="post image" src="{{post.image.url}}" style="width: 50%;">
+        </div>
+        <div class="col-7 text-right pt-5 pb-5">
+            <p><b><i>نویسنده: {{post.author.first_name}}{{post.author.last_name}}</i></b></p><br>
+            <a href="{% url 'post_archive' category.slug %}" class="text-warning important">{{category}}</a>
+            <span>:دسته بندی</span>
+            <p class="pt-5">{{post.content}}</p><br>
+            {% if post.post_comments %}
+                <p>:کامنت ها</p><br>
+                <p>{{post.post_comments.author.username}} --> {{post.posts_comments.content}}</p>
+            {% endif %}
+            <br>
+            <div class="d-flex justify-content-center align-items-center text-warning">
+                <a href="{% url 'posts_archive' %}" class="text-warning">Posts</a>
+                <i class="material-icons pl-1">apps</i>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+   
