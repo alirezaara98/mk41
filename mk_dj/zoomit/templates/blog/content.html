@@ -12,7 +12,7 @@
 
 {% block body %}
 <div class='container d-flex align-items-center justify-content-center'>
-    <div class="row d-flex justify-content-center text-white bg-info rounded shadow-lg p-3 mb-5 mt-5">
+    <div class="row d-flex justify-content-center text-white bg-secondary rounded shadow p-3 mb-5 mt-5">
         <div class="col-12 text-center pt-2">
             <h1>{{post.title}}</h1>
         </div>
@@ -21,16 +21,32 @@
         </div>
         <div class="col-7 text-right pt-5 pb-5">
             <p><b><i>نویسنده: {{post.author.first_name}}{{post.author.last_name}}</i></b></p><br>
-            <a href="{% url 'post_archive' category.slug %}" class="text-warning important">{{category}}</a>
-            <span>:دسته بندی</span>
+            <div class="text-center">
+                <a href="{% url 'category_single' category.slug %}" class="text-warning important">{{category}}</a>
+                <span>:دسته بندی</span>
+            </div>
             <p class="pt-5">{{post.content}}</p><br>
-            {% if post.post_comments %}
-                <p>:کامنت ها</p><br>
-                <p>{{post.post_comments.author.username}} --> {{post.posts_comments.content}}</p>
-            {% endif %}
+            <p>:کامنت ها</p>
+            <div>
+                {% if setting.allow_discussion %}
+                    {% if setting.comment %}
+                        <form method="POST" action="{% url 'post_single' slug=post.slug %}">
+                            {% csrf_token %}
+                            {{form}}
+                            <input type="submit" value="submit comment">
+                        </form>
+                    {% endif %}
+                    <div class="text-left">
+                        {% for comment in comments %}
+                            <span>@{{comment.author.username}}:</span>
+                            <p class="ml-5">{{comment}}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
             <br>
             <div class="d-flex justify-content-center align-items-center text-warning">
-                <a href="{% url 'posts_archive' %}" class="text-warning">Posts</a>
+                <a href="{% url 'post_archive' %}" class="text-warning">Posts</a>
                 <i class="material-icons pl-1">apps</i>
             </div>
         </div>

@@ -9,17 +9,19 @@
 
 {% block body %}
 <div class='container d-flex align-items-center justify-content-center h-100 w-100'>
-    <div class="row d-flex justify-content-center text-white bg-info rounded shadow-lg p-3 mb-5 mt-5 w-75">
+    <div class="row d-flex justify-content-center text-white bg-info rounded shadow p-3 mb-5 mt-5 w-75">
         <div class="text-warning text-center col-12 d-flex justify-content-center align-content-center">
             <i class="material-icons pr-2">storage</i>
             <h4>Post Menu</h4>
         </div>
-        <div>
-            <ul class="nav flex-column col-12 align-items-center">
-                {% for post in posts %}
-                    <li class="nav-item"><a class="nav-link text-white" href= "{% url 'post_single' post.slug %}">{{post}}</a></li>
-                {% endfor %}
-            </ul>
+        <div class="col-12 text-center">
+            {% for post in posts %}
+                <a class="text-white" href= "{% url 'post_single' post.slug %}">{{post}}</a><br>
+            {% endfor %}
+        </div>
+        <div class="text-center pt-4">
+            <a href="{% url 'login'%}" class="text-warning"><b>login</b></a><br>
+            <a href="{% url 'register'%}" class="text-warning"><b>!! haven't account !!</b></a>
         </div>
     </div>
 </div>
