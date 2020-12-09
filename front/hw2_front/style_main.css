@@ -24,6 +24,11 @@ button{
     height: 25px;
     border-radius: 5px;
     border: none;
+    width: 100%;
+}
+i{
+    position: absolute;
+    color: white;
 }
 .item_alignment{
     display: flex;
