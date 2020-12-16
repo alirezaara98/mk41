@@ -26,7 +26,7 @@ SECRET_KEY = '%7+74^8h*y(js(r5#)t$*yzq1gh*&2s*kmys$2s*o%89(75slf'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
+AUTH_USER_MODEL = "shop.User"
 
 # Application definition
 
