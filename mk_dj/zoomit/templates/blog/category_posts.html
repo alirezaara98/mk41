@@ -1,0 +1,20 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    CategoryPosts
+{% endblock %}
+
+{% block css%}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+<div class='container d-flex align-items-center justify-content-center'>
+    <div class="row d-flex justify-content-center text-white bg-secondary rounded shadow p-3 mb-5 mt-5">
+        {% for post in posts %}
+            <a href="{% url "post_single" post.slug %}" class="text-white font-weight-bold">{{ post.title }}</a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

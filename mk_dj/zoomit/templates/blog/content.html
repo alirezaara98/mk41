@@ -1,0 +1,104 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}
+    zommit :: {{post.title}}
+{% endblock %}
+
+{% block css%}
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% endblock %}
+    
+
+{% block body %}
+<div class='container d-flex align-items-center justify-content-center'>
+    <div class="row d-flex justify-content-center text-white bg-secondary rounded shadow p-3 mb-5 mt-5">
+        <div class="col-12 text-center pt-2">
+            <h1>{{post.title}}</h1>
+        </div>
+        <div class="col-12 text-center">
+            <img alt="post image" src="{{post.image.url}}" style="width: 50%;">
+        </div>
+        <div class="col-7 text-right pt-5 pb-5">
+            <p><b><i>نویسنده: {{post.author.full_name}}</i></b></p><br>
+            <div class="text-center">
+                <a href="{% url 'category_single' category.slug %}" class="text-warning important">{{category}}</a>
+                <span>:دسته بندی</span>
+            </div>
+            <p class="pt-5">{{post.content}}</p><br>
+            <p>:کامنت ها</p>
+            <div>
+                {% if setting.allow_discussion %}
+                    {% if setting.comment %}
+                        <span class="d-flex align-baseline">
+                            <label for="comment_content" class="pr-2">CommentText:</label>
+                            <textarea rows="5" cols="50" id="comment_content"></textarea>
+                            <button onclick="addcomment({{ post.id }})" class="text-white bg-primary rounded">send</button>
+                        </span>
+                    {% endif %}
+                    <div class="text-left" id="comment_field">
+                        {% for comment in comments %}
+                            <span>@{{comment.author.profile_name}}:</span>
+                            <p class="ml-5">{{comment}}</p>
+                            <div>
+                                like:<span id="like_count_container{{ comment.id }}">{{ comment.like_count }}</span>
+                                dislike:<span  id="dislike_count_container{{ comment.id }}">{{ comment.dislike_count }} </span>
+                            </div>
+                            <button onclick="likecomment({{ comment.id }},true)" class="text-white bg-success rounded">Like</button>
+                            <button onclick="likecomment({{ comment.id }},false)" class="bg-danger text-white rounded">Dislike</button><br><br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <br>
+            <div class="d-flex justify-content-center align-items-center text-warning">
+                <a href="{% url 'post_archive' %}" class="text-warning">Posts</a>
+                <i class="material-icons pl-1">apps</i>
+            </div>
+            <div>
+                <a href="{% url 'logout' %}" class="text-warning">logout</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block javascript %}
+    <script>
+        function likecomment(commentid, status){
+            const data = JSON.stringify({commentid: commentid, status: status})
+            $.ajax({
+                type: "post",
+                url: "{% url "like_comment" %}",
+                data: data,
+                success: (response) => {
+                    const res = JSON.parse(response)
+                    $(`#dislike_count_container${commentid}`).text(res.dislike_count)
+                    $(`#like_count_container${commentid}`).text(res.like_count)
+                }
+            })
+        }
+
+        function addcomment(postid){
+            let content = $('#comment_content').val()
+            const data = JSON.stringify({postid: postid, content: content})
+            $.ajax({
+                type: "post",
+                url: "{% url "add_comment" %}",
+                data: data,
+                success: (response) => {
+                    const rep = JSON.parse(response)
+                    let comment_obj = rep['comment']
+                    $('#comment_field').prepend(`<span>@${comment_obj.author.profile_name}:</span>
+                            <p class="ml-5">${comment_obj.content}</p>
+                            <div>
+                                like:<span id="like_count_container${comment_obj.id}">${comment_obj.like_count}</span>
+                                dislike:<span  id="dislike_count_container${comment_obj.id}">${comment_obj.dislike_count}</span>
+                            </div>
+                            <button onclick="likecomment(${comment_obj.id},true)" class="text-white bg-success rounded">Like</button>
+                            <button onclick="likecomment(${comment_obj.id},false)" class="bg-danger text-white rounded">Dislike</button><br><br>`)
+                }
+            })
+        }
+    </script>
+{% endblock %}
