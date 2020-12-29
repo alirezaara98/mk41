@@ -88,15 +88,15 @@
                 data: data,
                 success: (response) => {
                     const rep = JSON.parse(response)
-                    let comment_obj = rep['comment']
-                    $('#comment_field').prepend(`<span>@${comment_obj.author.profile_name}:</span>
-                            <p class="ml-5">${comment_obj.content}</p>
+                    //let comment_obj = rep['comment']
+                    $('#comment_field').prepend(`<span>@${rep['comment_author']}:</span>
+                            <p class="ml-5">${rep['comment_content']}</p>
                             <div>
-                                like:<span id="like_count_container${comment_obj.id}">${comment_obj.like_count}</span>
-                                dislike:<span  id="dislike_count_container${comment_obj.id}">${comment_obj.dislike_count}</span>
+                                like:<span id="like_count_container${rep['comment_id']}">${rep['comment_like']}</span>
+                                dislike:<span  id="dislike_count_container${rep['comment_id']}">${rep['comment_dislike']}</span>
                             </div>
-                            <button onclick="likecomment(${comment_obj.id},true)" class="text-white bg-success rounded">Like</button>
-                            <button onclick="likecomment(${comment_obj.id},false)" class="bg-danger text-white rounded">Dislike</button><br><br>`)
+                            <button onclick="likecomment(${rep['comment_id']},true)" class="text-white bg-success rounded">Like</button>
+                            <button onclick="likecomment(${rep['comment_id']},false)" class="bg-danger text-white rounded">Dislike</button><br><br>`)
                 }
             })
         }

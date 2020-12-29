@@ -10,7 +10,7 @@ class user_reg_form(forms.Form):
     #                            widget=forms.TextInput(attrs={'class': 'form-control'}))
     full_name = forms.CharField(label=_('full_name'), widget=forms.TextInput(attrs={'class': 'form-control'}))
     mail = forms.EmailField(label=_('email'), widget=forms.EmailInput(attrs={'class': 'form-control'}),
-                            help_text='<br>!!use valid email address', required=True)
+                            help_text='!!use valid email address', required=True)
     password1 = forms.CharField(label=_('password'), widget=forms.PasswordInput(attrs={'class': 'form-control'}),
                                 required=True)
     password2 = forms.CharField(label=_('password_repeat'),

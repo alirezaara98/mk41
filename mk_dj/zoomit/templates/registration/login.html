@@ -7,8 +7,8 @@ login
 
 
 {% block body %}
-  <div class="container d-flex align-content-center">
-    <form method="POST" action="{% url 'login' %}" class="row d-flex justify-content-center mt-5 bg-warning">
+  <div class="container d-flex justify-content-center">
+    <form method="POST" action="{% url 'login' %}" class="row d-flex justify-content-center mt-5 bg-warning p-4 rounded">
       <div>
         {% csrf_token %}
         <div class="form-group">

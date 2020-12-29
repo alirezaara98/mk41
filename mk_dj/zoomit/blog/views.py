@@ -1,5 +1,6 @@
 import json
 
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
 # from django.template import loader
@@ -20,6 +21,8 @@ User = get_user_model()
 # Create your views here.
 class Main(TemplateView):
     template_name = 'blog/main.html'
+
+
 # def main(request):
 #     return render(request, 'blog/main.html', {})
 
@@ -151,6 +154,7 @@ class CategoryPosts(DetailView):
         posts = Post.objects.filter(category=self.get_object())
         context = super().get_context_data(**kwargs)
         context['posts'] = posts
+        context['category'] = self.get_object()
         return context
 
 
@@ -169,6 +173,7 @@ class CategoryPosts(DetailView):
 #     else:
 #         pass
 #     return redirect('post_single', post_link)
+@login_required
 @csrf_exempt
 def like_comment(request):
     data = json.loads(request.body)
@@ -187,6 +192,7 @@ def like_comment(request):
     return HttpResponse(json.dumps(response), status=201)
 
 
+@login_required
 @csrf_exempt
 def add_comment(request):
     data = json.loads(request.body)
@@ -199,5 +205,8 @@ def add_comment(request):
         comment = Comment.objects.create(content=data['content'], post=post, author=user)
     except Comment.DoesNotExist:
         return HttpResponse("couldn't create comment", status=500)
-    response = {'comment': comment}
+    # response = {'comment': comment,}
+    response = {'comment_content': comment.content, 'comment_id': comment.id,
+                'comment_author': comment.author.profile_name, 'comment_like': comment.like_count,
+                'comment_dislike': comment.dislike_count}
     return HttpResponse(json.dumps(response), status=201)

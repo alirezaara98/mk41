@@ -8,12 +8,12 @@
 
 
 {% block body %}
-    <div class="container w-100 h-100">
-        <div class="row">
-            <form method="POST" action="{% url 'register' %}">
+    <div class="container d-flex justify-content-center w-100 h-100">
+        <div class="row d-flex justify-content-center mt-5 p-4 rounded" style="background-color: lightgoldenrodyellow">
+            <form method="POST" action="{% url 'register' %}" class="">
                 {% csrf_token %}
                 {% include 'component/form.html' %}
-                <input type="submit" value="register">
+                <input type="submit" value="register" class="bg-info text-white rounded" style="margin-left: 35%; border-left: 0; border-top: 0">
             </form>
         </div>
     </div>
