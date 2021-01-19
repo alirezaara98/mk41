@@ -18,14 +18,22 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path
 from django.urls.conf import include
+from account.api import UserViewSet
 from blog.views import CategoryMenu, CategoryPosts, Main
 from account.views import UserLogin, UserRegister
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', UserViewSet)
+
 urlpatterns = [
     path('', Main.as_view(), name='main_page'),
     path('admin/', admin.site.urls),
     path('posts/', include('blog.urls')),
-    path('category/', CategoryMenu.as_view(), name= 'category_archive'),
+    path('category/', CategoryMenu.as_view(), name='category_archive'),
     path('category/<slug:slug>', CategoryPosts.as_view(), name='category_single'),
     path('login/', UserLogin.as_view(), name='login'),
-    path('register/', UserRegister.as_view(), name='register')
+    path('register/', UserRegister.as_view(), name='register'),
+    path('api-auth/', include('rest_framework.urls')),
+    path('api/', include(router.urls)),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

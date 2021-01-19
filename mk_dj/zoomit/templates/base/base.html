@@ -14,6 +14,24 @@
     <div class="bg"></div>
     <div class="bg bg2"></div>
     <div class="bg bg3"></div>
+    <nav class="navbar navbar-dark ml-5 mr-5 mt-2 rounded" style="background-color: #eac451;">
+        <div class="container-fluid d-flex justify-content-between">
+            <div>
+                <a href="{% url "main_page" %}" class="text-white font-weight-bold">Home</a>
+                <span style="color: red">|</span>
+                <a href="{% url "post_archive" %}" class="text-white font-weight-bold">PostMenu</a>
+                <span style="color: red">|</span>
+                <a href="{% url "category_archive" %}" class="text-white font-weight-bold">Category</a>
+            </div>
+            <div>
+                <a href="{% url "login" %}" class="text-white font-weight-bold">Login</a>
+                <span style="color: red">|</span>
+                <a href="{% url "logout" %}" class="text-white font-weight-bold">Logout</a>
+                <span style="color: red">|</span>
+                <a href="{% url "register" %}" class="text-white font-weight-bold">Register</a>
+            </div>
+        </div>
+    </nav>
     {% block body %}{% endblock%}
     <script
       src="https://code.jquery.com/jquery-3.5.1.min.js"

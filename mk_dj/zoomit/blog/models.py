@@ -25,7 +25,7 @@ class Post(models.Model):
     content = models.TextField(_("Content"))
     create_at = models.DateTimeField(_("Create at"), auto_now_add=True)
     update_at = models.DateTimeField(_("Update at"), auto_now=True)
-    publish_time = models.DateTimeField(_("Publish at"), db_index=True, null=True)
+    publish_time = models.DateTimeField(_("Publish at"), db_index=True, null=True, blank=True)
     draft = models.BooleanField(_("Draft"), default=True, db_index=True)
     image = models.ImageField(_("Image"), upload_to="post/images")
     category = models.ForeignKey(Category, verbose_name="category", related_name="posts",related_query_name="posts", on_delete= models.SET_NULL, null= True, blank= True)
