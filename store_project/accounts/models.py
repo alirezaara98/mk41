@@ -1,8 +1,9 @@
+from django.core.mail import send_mail
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
-from django.contrib.auth.models import PermissionsMixin
 from django.utils import timezone
+from django.contrib.auth.models import PermissionsMixin
 
 
 # Create your models here.
@@ -38,11 +39,10 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_("Email"), unique=True, db_index=True)
-    password = models.CharField(_("Password"), max_length=180)
-    mobile = models.CharField(_("Mobile"), unique=True)
+    mobile = models.CharField(_("Mobile"), unique=True, max_length=20)
     first_name = models.CharField(_("First_name"), max_length=50, null=True, blank=True)
     last_name = models.CharField(_("Last_name"), max_length=50, null=True, blank=True)
-    image = models.ImageField(_("Image"), upload_to="/profile/", null=True, blank=True)
+    image = models.ImageField(_("Image"), upload_to="profile/", null=True, blank=True)
     join_date = models.DateTimeField(_("JoinDate"), default=timezone.now)
 
     is_staff = models.BooleanField(
@@ -59,12 +59,24 @@ class User(AbstractBaseUser, PermissionsMixin):
         ),
     )
 
+    @property
+    def full_name(self):
+        return str(self.first_name) + ' ' + str(self.last_name)
+
+    def __str__(self):
+        return self.full_name
+
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['first_name', 'last_name']
+    objects = UserManager()
 
+    def clean(self):
+        self.email = self.__class__.objects.normalize_email(self.email)
 
-class Likes(models.Model):
-    pass
+    def email_user(self, subject, message, from_email=None, **kwargs):
+        """Send an email to this user."""
+        send_mail(subject, message, from_email, [self.email], **kwargs)
 
 
 class Notfications(models.Model):
@@ -85,7 +97,7 @@ class Shop(models.Model):
     name = models.CharField(_("Name"), max_length=50)
     slug = models.SlugField(_("slug"), db_index=True)
     description = models.CharField(_("Discription"), max_length=400)
-    image = models.ImageField(_("Image"), upload_to="/shop/")
+    image = models.ImageField(_("Image"), upload_to="shop/")
 
 
 class Email(models.Model):
